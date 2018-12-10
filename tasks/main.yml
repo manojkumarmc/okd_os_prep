@@ -1,0 +1,71 @@
+---
+
+- name: check path exists /bin
+  stat: path="/bin"
+  register: p
+
+- name: verify /bin is a directory
+  debug: msg="Path /bin exists"
+  when: p.stat.isdir is defined and p.stat.isdir
+
+- name: check path exists /sbin
+  stat: path="/sbin"
+  register: p
+
+- name: verify /sbin is a directory
+  debug: msg="Path /sbin exists"
+  when: p.stat.isdir is defined and p.stat.isdir
+
+- name: check path exists /usr/sbin
+  stat: path="/usr/sbin"
+  register: p
+
+- name: verify /usr/sbin is a directory
+  debug: msg="Path /usr/sbin exists"
+  when: p.stat.isdir is defined and p.stat.isdir
+
+- name: check path exists /usr/bin
+  stat: path="/usr/bin"
+  register: p
+
+- name: verify /usr/bin is a directory
+  debug: msg="Path /usr/bin exists"
+  when: p.stat.isdir is defined and p.stat.isdir
+
+- name: no_proxy is set
+  lineinfile: name="/etc/environment" line={{ proxy_list }} state=present
+
+- name: install dependencies
+  yum: name={{item}} state=present
+  with_items:
+    - wget
+    - git
+    - net-tools
+    - bind-utils
+    - iptables-services
+    - bridge-utils
+    - bash-completion
+    - kexec-tools
+    - sos
+    - psacct
+    - httpd-tools
+    - python-docker-py
+    - python-docker-pycreds
+    - yum-utils
+    - device-mapper-persistent-data
+    - lvm2
+
+- name: install epel repo
+  yum: name=epel-release state=present
+
+- name: install ansible
+  yum: name=ansible state=present
+
+- name: install pyOpenSSL
+  yum: name=pyOpenSSL state=latest
+
+- name: disable epel
+  shell: yum-config-manager --disable epel
+
+- name: install docker-1.13.1
+  yum: name=docker-1.13.1 state=present

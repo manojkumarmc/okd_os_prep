@@ -1,0 +1,5 @@
+---
+
+# vars file for os-prep
+
+proxy_list: "no_proxy=cluster.local,.svc,localhost,127.0.0.1,172.30.0.1"
