@@ -62,7 +62,7 @@
   yum: name=ansible state=present
 
 - name: install pyOpenSSL
-  yum: name=pyOpenSSL state=latest
+  yum: name=pyOpenSSL state=present
 
 - name: disable epel
   shell: yum-config-manager --disable epel
